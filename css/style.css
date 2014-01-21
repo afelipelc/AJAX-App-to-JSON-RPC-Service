@@ -1,0 +1,107 @@
+header{
+	padding-top: 15px;
+	padding-bottom: 15px;
+	/*border: solid 1px #ccc;*/
+}
+
+header h1{
+	font-size: 24px;
+	margin-left: 30px;
+}
+
+header #formContainer {
+	vertical-align: center;
+	float: right;
+	margin-top:-40px;
+	margin-right: 20px;
+}
+
+
+article{
+	width: 85%;
+	height: 90%;
+	/*border: solid 1px #ccc;*/
+	clear:both;
+}
+
+.itemClass{
+	height: 160px;
+    border: solid 1px #ccc;
+    padding: 5px 10px 5px 10px;
+    margin: 10px 10px 10px 10px;
+	float:left;
+}
+
+article .deptoItem{
+	width: 240px;
+}
+
+.deptoItem .itemOptions{
+	width: 100%;
+	text-align: center;
+}
+
+.deptoItem .itemOptions a{
+	margin: 0px 20px 0px 20px;
+}
+
+div #itemContent{
+	padding-bottom: 1px;
+}
+
+div #itemContent img{
+	width: 60px;
+	height: 60px;
+	float: left;
+	margin: 0px 8px 8px 0px;
+}
+
+div #itemContent label{
+	color: #777;
+}
+
+div #itemContent:hover{
+	/*background-color: #ccc;*/
+	cursor: pointer;
+}
+
+#itemContent, #itemContent p, #itemContent h4, #itemContent label{
+	line-height: 1px;
+}
+
+article #newItem{
+	width: 160px;
+	vertical-align: center;
+}
+
+.clearLine{
+	clear:both;
+}
+
+footer {
+	margin-top: 30px;
+	text-align: center;
+}
+
+
+/*Departamento FORM */
+#fotoContainer{
+	height: 350px;
+}
+
+#fotoContainer #fotoDepto{
+	width: 60px;
+	height: 60px;
+}
+
+#departamentoForm div{
+	width: 100%;
+	text-align: center;
+	margin-top: 10px;
+}
+
+#dataDeptoForm label{
+	margin-top: 8px;
+	margin-bottom: 3px;
+}
+/*Fin - Departamento FORM */

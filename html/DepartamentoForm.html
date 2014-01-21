@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+	<head>
+		<meta lang="ES">
+		<meta charset="utf-8">
+	</head>
+	<body>
+		<article>
+			<form id="departamentoForm" method="POST" name="departamentoForm" action="#">
+				<input type="hidden" value="0" id="idDepartamento">
+				<input type="hidden" value="" id="actionForm"
+				<span id="fotoContainer">
+					<img src="..." id="fotoDepto"><br />
+					<input type="file" id="foto" name="foto" />
+				</span>
+				<span id="dataDeptoForm">
+					<label>Nombre</label><br/>
+					<input type="text" id="nombre" name="nombre" required="required" /><br/>
+					<label>Responsable</label><br/>
+					<input type="text" id="resposable" name="resposable" required="required" /><br/>
+					<label>Cargo</label><br/>
+					<select id="cargoResp">
+						<option value="" selected="selected">Seleccionar</option>
+						<option value="Rector">Rector</option>
+						<option value="Director">Director</option>
+						<option value="Directora">Directora</option>
+						<option value="Secretaria">Secretaria</option>
+						<option value="Profesor">Profesor</option>
+						<option value="Profesora">Profesora</option>
+						<option value="T&eacute;cnico">T&eacute;cnico</option>
+					</select><br/>
+					<label>Tel&eacute;fono</label><br/>
+					<input type="text" id="telefono" name="telefono" required="required" /><br/>
+					<label>Email</label><br/>
+					<input type="text" id="email" name="email" required="required" /><br/>
+				</span>
+				<label>Informaci&oacute;n complementaria</label><br />
+				<textarea id="otraInfo" name="otraInfo" width="90%" height="60"></textarea><br />
+				<div>
+					<input type="submit" id="guardarBtn" value="Guardar">  
+					<input type="button" id="cancelarBtn" value="Cancelar">  
+				</div>
+			</form>
+		</article>
+	</body>
+</html>
