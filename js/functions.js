@@ -8,6 +8,8 @@
 
 var url_servicio = 'http://localhost/deptosws/ws.php';
 var tempdelete="";
+var errorStart=false;
+var BSON;// = bson().BSON;
 //Funcion Global para la llamada a los metodos remotos
 function jsonRpcFunction(metodo, parametros, funcion)
 {
@@ -20,12 +22,89 @@ function jsonRpcFunction(metodo, parametros, funcion)
             id:"jsonrpc"
         }), 
         type:"POST", //contentType : "application/json; charset=utf-8",
+        enctype: "multipart/form-data",
         dataType:"JSON",
         success:  funcion,
         error: function (err)  {
-            alert ("Error en la llamada al servidor"); //si el metodo responde con un error
+            alert ("Error en la llamada al servidor. \n\nCompruebe que tiene acceso a "+ url_servicio); //si el metodo responde con un error
+            errorStart=true;
         }
     });
+}
+
+//variable and function for send files
+var imagen;
+function prepareUpload(event)
+{
+  imagen = event.target.files;
+}
+
+function uploadFile(idDepto){
+    //alert("subiendo foto" + idDepto)
+
+    var dataForm = new FormData();
+    var foto = imagen[0];
+
+    dataForm.append("idDepto",idDepto);
+    //attach file
+    //$.each(imagen, function(key, value){
+        dataForm.append('foto',foto);
+    //});
+
+    //send ajax call
+    // $.ajax({
+    //     url: 'http://localhost/deptosws/imagenes.php', 
+    //     data: dataForm, 
+    //     type:"GET", //contentType : "application/json; charset=utf-8",
+
+    //     success:  function(data){
+    //         //alert(data);
+    //     },
+    //     error: function (err)  {
+    //         alert ("Error al cargar la imagen. \n\nCompruebe que tiene acceso a "+ url_servicio); //si el metodo responde con un error
+    //     }
+    // });
+            $.ajax({
+                        url: 'http://localhost/deptosws/imagenes.php',  //server script to process data
+                        type: 'POST',
+                        xhr: function() {  // custom xhr
+                            myXhr = $.ajaxSettings.xhr();
+                            if(myXhr.upload){ // if upload property exists
+                                myXhr.upload.addEventListener('progress', function(){
+                                    //...
+                                }, false); // progressbar
+                            }
+                            return myXhr;
+                        },
+                        //Ajax events
+                        success: completeHandler = function(data) {
+                            /*
+                            * workaround for crome browser // delete the fakepath
+                            */
+                            alert("Respuesta: " + data);
+                            // if(navigator.userAgent.indexOf('Chrome')) {
+                            //     var catchFile = $(":file").val().replace(/C:\\fakepath\\/i, '');
+                            // }
+                            // else {
+                            //     var catchFile = $(":file").val();
+                            // }
+                            // var writeFile = $(":file");
+
+                            // writeFile.html(writer(catchFile));
+
+                            // $("*setIdOfImageInHiddenInput*").val(data.logo_id);
+
+                        },
+                        error: errorHandler = function() {
+                            alert("Något gick fel");
+                        },
+                        // Form data
+                        data: dataForm,
+                        //Options to tell JQuery not to process data or worry about content-type
+                        cache: false,
+                        contentType: false,
+                        processData: false
+                    }, 'text');
 }
 
 var errorInWS = function(data){
@@ -59,8 +138,16 @@ var departamentoViewFunction = function(data){
     if(!errorInWS(data)){
         var item = data.result;
         //editar el formato de vista HTML
-        var deptoItem = '<div id="item'+item.id+'" class="itemClass deptoItem"><div id="itemContent"><img src="..."/><h4>'+item.nombre+'</h4><p>'+item.responsable+'</p><label>'+item.cargoResp+'</label><p>Tel. '+item.telefono+'</p><p>Email: '+item.email+'</p><p>'+item.informacion+'</p></div><div class="itemOptions"><a href="#" id="editItem">Editar</a><a href="#" id="removeItem">Eliminar</a></div></div>';
-        $("#mainContent").append(deptoItem);
+        $("#mainContent").load("html/departamentoView.html",function(){
+            $("#departamentoViewContent .itemcontainer").attr("id","item"+item.id);
+            $("#departamentoViewContent #nombre").html(item.nombre);
+            $("#departamentoViewContent #responsable").html(item.responsable);
+            $("#departamentoViewContent #cargoResp").html(item.cargoResp);
+            $("#departamentoViewContent #telefono").html(item.telefono);
+            $("#departamentoViewContent #email").html(item.email);
+            $("#departamentoViewContent #email").attr("href","mailto:"+item.email);
+            $("#departamentoViewContent #información").html(item.informacion);
+        })
     }
 };
 
@@ -79,6 +166,7 @@ var departamentoSavedNewFunction = function(data){
     if(!errorInWS(data)){
         if(data.result!=null)
         {
+            uploadFile(data.result.id);
             //insertar antes del boton +
             //$("#mainContent #newItem").before(itemLayout(data.result));
             alert("Se ha registrado el departamento");
@@ -130,14 +218,27 @@ function nuevoItemLayout(){
     $("#mainContent").append(nuevo);
 }
 
+
 //Funcion para guardar el Departamento (Nuevo o Edicion)
-function guardarDepartamento()
+function guardarDepartamento(event)
 {
+    //preparar archivo imagen a enviar
+// var datosImg = new FormData();
+//     if(imagen){
+//         $.each(imagen, function(key, value){
+//             datosImg.append(key,value);
+//         });
+//     }
+    //var datosImg = serialize(imagen);
+    //alert(datosImg);
+    //var datosImg = BSON.serialize(imagen[0], false, true, false);
+    //alert(BSON.deserialize(datosImg));
     if($("#departamentoForm #actionForm").val()=="new"){
-        jsonRpcFunction("RegistrarDepartamento",[$("#nombre").val(),$("#resposable").val(),$("#cargoResp").val(),"Foto...", $("#email").val(), $("#telefono").val(), $("#otraInfo").val()],departamentoSavedNewFunction);
+        jsonRpcFunction("RegistrarDepartamento",[$("#nombre").val(),$("#resposable").val(),$("#cargoResp").val(), $("#email").val(), $("#telefono").val(), $("#otraInfo").val()],departamentoSavedNewFunction);
     }
     else if ($("#departamentoForm #actionForm").val()=="edit") {
-        jsonRpcFunction("ActualizarDepartamento",[$("#idDepartamento").val(),$("#nombre").val(),$("#resposable").val(),$("#cargoResp").val(),"Foto...", $("#email").val(), $("#telefono").val(), $("#otraInfo").val()],departamentoSavedChangesFunction);
+        jsonRpcFunction("ActualizarDepartamento",[$("#idDepartamento").val(),$("#nombre").val(),$("#resposable").val(),$("#cargoResp").val(), $("#email").val(), $("#telefono").val(), $("#otraInfo").val()],departamentoSavedChangesFunction);
+        uploadFile($("#idDepartamento").val());
     }else
     {
         alert("Accion desconocida");
@@ -163,6 +264,7 @@ function departamentoEdit(idDepto){
     });   
 }
 
+
 function cargarItems(){
     $("#mainContent").html("");
     nuevoItemLayout();
@@ -181,6 +283,9 @@ function buscarDepartamentos(q){
 
 //DOCUMENT READY
 $( document ).ready(function() {
+    //initialize BSON
+    BSON = bson().BSON;
+
     //departamentoEdit(3);
     cargarItems();
 
@@ -191,9 +296,12 @@ $( document ).ready(function() {
         nuevoDepartamento();
     });
 
+    $("#mainContent").on("change","input[type=file]",prepareUpload);
+
     $("#mainContent").on("submit","#departamentoForm", function(event){
+        event.stopPropagation();
         event.preventDefault();
-        guardarDepartamento();
+        guardarDepartamento(event);
     });
 
     $("#mainContent").on("click","#cancelarBtn",function(){
@@ -217,6 +325,10 @@ $( document ).ready(function() {
     $("#searchForm").submit(function(event){
         event.preventDefault();
         buscarDepartamentos($("#buscar").val());
+    });
+
+    $("#mainContent").on("click","#itemContent",function(){
+        jsonRpcFunction("DatosDepartamento",[$(this).parent().attr("id").replace("item","")],departamentoViewFunction);
     });
 });
 
