@@ -36,17 +36,39 @@ article .deptoItem{
 	width: 240px;
 }
 
-.deptoItem .itemOptions{
+.itemOptions{
 	width: 100%;
 	text-align: center;
 }
 
-.deptoItem .itemOptions a{
-	margin: 0px 20px 0px 20px;
+.mostrarOptions{
+	display: block;
 }
+
+.ocultarOptions{
+	display: none;
+}
+
+.itemOptions a{
+	margin: 0px 15px 0px 30px;
+	display:inline-block;
+    height:24px;
+    width:24px;
+}
+
+#editItem{
+	background-image: url("../images/edit.png");
+
+}
+
+#removeItem{
+	background-image: url("../images/delete.png");
+}
+
 
 div #itemContent{
 	padding-bottom: 1px;
+	height: 110px;
 }
 
 div #itemContent img{
@@ -60,6 +82,10 @@ div #itemContent label{
 	color: #777;
 }
 
+.itemClass:hover{
+	background-color: #E9F5ED;
+}
+
 div #itemContent:hover{
 	/*background-color: #ccc;*/
 	cursor: pointer;
@@ -69,9 +95,11 @@ div #itemContent:hover{
 	line-height: 1px;
 }
 
+
 article #newItem{
 	width: 160px;
 	vertical-align: center;
+	text-align: center;
 }
 
 .clearLine{
@@ -83,16 +111,60 @@ footer {
 	text-align: center;
 }
 
+/* Add item */
+#addItem{
+	background-image: url("../images/plus.png");
+	display:block;
+    height:128px;
+    width:128px;
+    margin-top: 15px;
+    margin-left: 15px;
+}
+
+
+/* Departamento View */
+#contenedorImagenView{
+	max-height: 230px;
+	width: 220px;
+	padding: 15px 15px 15px 15px;
+	float: left;
+	position: relative;
+	/*border: 1px solid #000;*/
+	text-align: center;
+}
+
+#contenedorImagenView span{
+	margin-top: 8px;
+}
+
+#contenedorImagenView img{
+	max-height: 165;
+	max-width: 195px;
+}
+
+#departamentoViewContent, #departamentoViewContent p, #departamentoViewContent h4{
+	line-height: 8px;
+	margin-left: 15px;
+}
+
+#departamentoViewContent .itemcontainer{
+	margin-left: 12px;
+	padding-left: 20px;
+}
+
+#departamentoViewContent .infoDepto{
+	padding-top: 8px;
+}
+
+#departamentoViewContent .itemOptions{
+	padding-top: 16px;
+	margin-left: 80px;
+}
+
+
+/* fin departamento view */
 
 /*Departamento FORM */
-#fotoContainer{
-	height: 350px;
-}
-
-#fotoContainer #fotoDepto{
-	width: 60px;
-	height: 60px;
-}
 
 #departamentoForm div{
 	width: 100%;
@@ -100,8 +172,33 @@ footer {
 	margin-top: 10px;
 }
 
+#fotoContainer{
+	max-height: 210px;
+	max-width: 210px;
+	padding: 5px 15px 15px 5px;
+	float: left;
+	text-align: center;
+	/*border: 1px solid #000;*/
+}
+
+#fotoDepto{
+	max-width: 180px;
+	max-height: 160px;
+}
+
 #dataDeptoForm label{
+	margin-top: 12px;
+	margin-bottom: 3px;
+	margin-left: 10px;
+}
+#dataDeptoForm input{
+	margin-left: 10px;
+}
+textarea{
 	margin-top: 8px;
 	margin-bottom: 3px;
+	margin-left: 10px;
+	width: 240px;
+	height: 80px;
 }
 /*Fin - Departamento FORM */

@@ -2,14 +2,12 @@
 // como ejemplo para la asignatura: Desarrollo de Aplicaciones III
 // en la Universidad Tecnológica de Izúcar de Matamoros, Puebla.
 
-// afelipelc@gmaill.com
-
+// afelipelc@gmail.com
 //variables globales y funciones
 
 var url_servicio = 'http://localhost/deptosws/ws.php';
 var tempdelete="";
 var errorStart=false;
-var BSON;// = bson().BSON;
 //Funcion Global para la llamada a los metodos remotos
 function jsonRpcFunction(metodo, parametros, funcion)
 {
@@ -22,90 +20,16 @@ function jsonRpcFunction(metodo, parametros, funcion)
             id:"jsonrpc"
         }), 
         type:"POST", //contentType : "application/json; charset=utf-8",
-        enctype: "multipart/form-data",
         dataType:"JSON",
         success:  funcion,
-        error: function (err)  {
+        error: function (jqXHR, textStatus, errorThrown)  {
+            console.log(errorThrown); console.log(textStatus); 
             alert ("Error en la llamada al servidor. \n\nCompruebe que tiene acceso a "+ url_servicio); //si el metodo responde con un error
             errorStart=true;
         }
     });
 }
 
-//variable and function for send files
-var imagen;
-function prepareUpload(event)
-{
-  imagen = event.target.files;
-}
-
-function uploadFile(idDepto){
-    //alert("subiendo foto" + idDepto)
-
-    var dataForm = new FormData();
-    var foto = imagen[0];
-
-    dataForm.append("idDepto",idDepto);
-    //attach file
-    //$.each(imagen, function(key, value){
-        dataForm.append('foto',foto);
-    //});
-
-    //send ajax call
-    // $.ajax({
-    //     url: 'http://localhost/deptosws/imagenes.php', 
-    //     data: dataForm, 
-    //     type:"GET", //contentType : "application/json; charset=utf-8",
-
-    //     success:  function(data){
-    //         //alert(data);
-    //     },
-    //     error: function (err)  {
-    //         alert ("Error al cargar la imagen. \n\nCompruebe que tiene acceso a "+ url_servicio); //si el metodo responde con un error
-    //     }
-    // });
-            $.ajax({
-                        url: 'http://localhost/deptosws/imagenes.php',  //server script to process data
-                        type: 'POST',
-                        xhr: function() {  // custom xhr
-                            myXhr = $.ajaxSettings.xhr();
-                            if(myXhr.upload){ // if upload property exists
-                                myXhr.upload.addEventListener('progress', function(){
-                                    //...
-                                }, false); // progressbar
-                            }
-                            return myXhr;
-                        },
-                        //Ajax events
-                        success: completeHandler = function(data) {
-                            /*
-                            * workaround for crome browser // delete the fakepath
-                            */
-                            alert("Respuesta: " + data);
-                            // if(navigator.userAgent.indexOf('Chrome')) {
-                            //     var catchFile = $(":file").val().replace(/C:\\fakepath\\/i, '');
-                            // }
-                            // else {
-                            //     var catchFile = $(":file").val();
-                            // }
-                            // var writeFile = $(":file");
-
-                            // writeFile.html(writer(catchFile));
-
-                            // $("*setIdOfImageInHiddenInput*").val(data.logo_id);
-
-                        },
-                        error: errorHandler = function() {
-                            alert("Något gick fel");
-                        },
-                        // Form data
-                        data: dataForm,
-                        //Options to tell JQuery not to process data or worry about content-type
-                        cache: false,
-                        contentType: false,
-                        processData: false
-                    }, 'text');
-}
 
 var errorInWS = function(data){
     if(data.error){
@@ -115,7 +39,7 @@ var errorInWS = function(data){
 };
 
 function itemLayout(item){
-    var depto = '<div id="item'+item.id+'" class="itemClass deptoItem"><div id="itemContent"><img src="..."/><h4>'+item.nombre+'</h4><p>'+item.responsable+'</p><label>'+item.cargoResp+'</label><p>Tel. '+item.telefono+'</p><p>Email: '+item.email+'</p><p>'+item.informacion+'</p></div><div class="itemOptions"><a href="#" id="editItem">Editar</a><a href="#" id="removeItem">Eliminar</a></div></div>';
+    var depto = '<div id="item'+item.id+'" class="itemClass deptoItem"><div id="itemContent"><img src="images/depto/'+item.fotoResp+'"/><h4>'+item.nombre+'</h4><p>'+item.responsable+'</p><label>'+item.cargoResp+'</label><p>Tel. '+item.telefono+'</p><p>Email: '+item.email+'</p><p>'+item.informacion.substr(0,33)+'...</p></div><div class="itemOptions ocultarOptions"><a href="#" id="editItem"></a><a href="#" id="removeItem"></a></div></div>';
     return depto;
 }
 
@@ -128,8 +52,6 @@ var departamentosFunction = function(data){
             //insertar antes del boton +
             $("#mainContent #newItem").before(itemLayout(item));
         });
-
-       errorInWS();
     }
 };
 
@@ -142,11 +64,12 @@ var departamentoViewFunction = function(data){
             $("#departamentoViewContent .itemcontainer").attr("id","item"+item.id);
             $("#departamentoViewContent #nombre").html(item.nombre);
             $("#departamentoViewContent #responsable").html(item.responsable);
+            $("#departamentoViewContent #contenedorImagenView img").attr("src","images/depto/"+item.fotoResp);
             $("#departamentoViewContent #cargoResp").html(item.cargoResp);
             $("#departamentoViewContent #telefono").html(item.telefono);
             $("#departamentoViewContent #email").html(item.email);
             $("#departamentoViewContent #email").attr("href","mailto:"+item.email);
-            $("#departamentoViewContent #información").html(item.informacion);
+            $("#departamentoViewContent #informacion").html(item.informacion);
         })
     }
 };
@@ -166,10 +89,9 @@ var departamentoSavedNewFunction = function(data){
     if(!errorInWS(data)){
         if(data.result!=null)
         {
-            uploadFile(data.result.id);
-            //insertar antes del boton +
-            //$("#mainContent #newItem").before(itemLayout(data.result));
             alert("Se ha registrado el departamento");
+            //recargar formulario a edicion
+            departamentoEdit(data.result.id);
         }
         else
             alert("El departamento no se registro");
@@ -189,13 +111,15 @@ var departamentoEditViewFunction = function(data){
         $("#idDepartamento").val(item.id);
         $("#actionForm").val("edit");
         $("#nombre").val(item.nombre);
-        $("#resposable").val(item.responsable);    
+        $("#resposable").val(item.responsable);
+        $("#fotoDepto").attr("src","images/depto/"+item.fotoResp);
         $("#telefono").val(item.telefono);
         $("#email").val(item.email);
         $("#otraInfo").val(item.informacion);
         $('#cargoResp option:selected', 'select').removeAttr('selected');//.next('option').attr('selected', 'selected');
         $("#cargoResp").val(item.cargoResp);
-        $("#cargoResp option:text=" + item.cargoResp +"").attr("selected", "selected"); 
+        //$("#cargoResp option:text=" + item.cargoResp +"").attr("selected", "selected"); 
+        
     }
 }
 
@@ -205,7 +129,6 @@ var departamentoDeleteFunction = function(data){
             alert("El departamento ha sido eliminado." + tempdelete);
             $("#" + tempdelete).remove();
             tempdelete="";
-
         }else{
             alert("No se eliminó el departamento.");
         }
@@ -214,7 +137,7 @@ var departamentoDeleteFunction = function(data){
 
 //funcion para insertar el boton Agregar Depto
 function nuevoItemLayout(){
-    var nuevo = '<div id="newItem" class="itemClass"><a href="#" id="addItem">Agregar Departamento</a></div>';
+    var nuevo = '<div id="newItem" class="itemClass"><a href="#" id="addItem"></a></div>';
     $("#mainContent").append(nuevo);
 }
 
@@ -222,29 +145,18 @@ function nuevoItemLayout(){
 //Funcion para guardar el Departamento (Nuevo o Edicion)
 function guardarDepartamento(event)
 {
-    //preparar archivo imagen a enviar
-// var datosImg = new FormData();
-//     if(imagen){
-//         $.each(imagen, function(key, value){
-//             datosImg.append(key,value);
-//         });
-//     }
-    //var datosImg = serialize(imagen);
-    //alert(datosImg);
-    //var datosImg = BSON.serialize(imagen[0], false, true, false);
-    //alert(BSON.deserialize(datosImg));
     if($("#departamentoForm #actionForm").val()=="new"){
         jsonRpcFunction("RegistrarDepartamento",[$("#nombre").val(),$("#resposable").val(),$("#cargoResp").val(), $("#email").val(), $("#telefono").val(), $("#otraInfo").val()],departamentoSavedNewFunction);
+        return;
     }
     else if ($("#departamentoForm #actionForm").val()=="edit") {
         jsonRpcFunction("ActualizarDepartamento",[$("#idDepartamento").val(),$("#nombre").val(),$("#resposable").val(),$("#cargoResp").val(), $("#email").val(), $("#telefono").val(), $("#otraInfo").val()],departamentoSavedChangesFunction);
-        uploadFile($("#idDepartamento").val());
+        //uploadFile($("#idDepartamento").val());
     }else
     {
         alert("Accion desconocida");
         return;
     }
-
     //reload items
     cargarItems();
 }
@@ -255,12 +167,22 @@ function nuevoDepartamento(){
         $("#idDepartamento").val(0);
         $("#actionForm").val("new");
         $("#nombre").focus();
+
+        //quitar la carga de imagen al ser nuevo registro
+        $("#mainContent footer").remove();
+        $("#departamentoForm #fotoContainer").remove();
+
     });
 }
 
 function departamentoEdit(idDepto){
     $("#mainContent").load("html/DepartamentoForm.html", function(){
+        var urlupload = '../deptosws/imagenes.php?idDepartamento='+idDepto;
+        $("#departamentoForm").attr("action",urlupload);
         jsonRpcFunction("DatosDepartamento",[idDepto],departamentoEditViewFunction);
+
+        //cargamos el script que controlara la carga
+        $("#mainContent #extraContent").load("html/uploadjs.html");
     });   
 }
 
@@ -269,34 +191,22 @@ function cargarItems(){
     $("#mainContent").html("");
     nuevoItemLayout();
     jsonRpcFunction("Departamentos", [], departamentosFunction);
-    
 }
 
 function buscarDepartamentos(q){
     $("#mainContent").html("");
-    $("#mainContent").append("<div>Resultados de la búsqueda para: <strong>"+q+"</strong></div>")
+    $("#mainContent").append("<a href=\"\" id=\"cancelarBtn\">Regresar</a><div>Resultados de la búsqueda para: <strong>"+q+"</strong></div>")
     nuevoItemLayout();
     jsonRpcFunction("Buscar",[q],departamentosFunction);
 }
 
 
-
 //DOCUMENT READY
 $( document ).ready(function() {
-    //initialize BSON
-    BSON = bson().BSON;
-
-    //departamentoEdit(3);
     cargarItems();
 
-
     //EVENTOS
-    $("#mainContent").on("click","#addItem",function(){
-        //departamentoEdit(3);
-        nuevoDepartamento();
-    });
-
-    $("#mainContent").on("change","input[type=file]",prepareUpload);
+    $("#mainContent").on("click","#addItem",function(){ nuevoDepartamento(); });
 
     $("#mainContent").on("submit","#departamentoForm", function(event){
         event.stopPropagation();
@@ -304,12 +214,10 @@ $( document ).ready(function() {
         guardarDepartamento(event);
     });
 
-    $("#mainContent").on("click","#cancelarBtn",function(){
-        cargarItems();
-    });
+    $("#mainContent").on("click","#cancelarBtn",function(){ cargarItems(); });
 
     $("#mainContent").on("click","#editItem",function(event){
-        //get parent and replace "item" text to "" and get element ID
+        //get parent and replace "item" string to "" and get element ID
         departamentoEdit($(this).parent().parent().attr("id").replace("item",""));
     });
 
@@ -330,6 +238,20 @@ $( document ).ready(function() {
     $("#mainContent").on("click","#itemContent",function(){
         jsonRpcFunction("DatosDepartamento",[$(this).parent().attr("id").replace("item","")],departamentoViewFunction);
     });
+
+    //show/hide options
+    $("#mainContent").on("mouseenter",".deptoItem",function(){
+        $($(this).find(".itemOptions")).removeClass("ocultarOptions");
+        $($(this).find(".itemOptions")).addClass("mostrarOptions");
+        //console.log($($(this).find(".itemOptions")).attr("class"));
+    });
+
+    $("#mainContent").on("mouseleave",".deptoItem",function(){
+        $($(this).find(".itemOptions")).removeClass("mostrarOptions");
+        $($(this).find(".itemOptions")).addClass("ocultarOptions");
+        //console.log($($(this).find(".itemOptions")).attr("class"));
+    });
 });
 
-// afelipelc@gmaill.com
+// por afelipelc@gmaill.com
+// enero 2014

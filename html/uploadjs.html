@@ -1,0 +1,18 @@
+<script>
+
+    $(function () {
+
+    $('#foto').fileupload({
+        url: $("#departamentoForm").attr("action"),
+        dataType: 'json',
+        done: function (e, data) {
+            //alert(data.result.imagen);
+            console.log(data);
+            $("#fotoDepto").attr("src","images/depto/"+data.result.imagen);
+
+        }
+    }).prop('disabled', !$.support.fileInput)
+        .parent().addClass($.support.fileInput ? undefined : 'disabled');
+});
+
+</script>

@@ -5,12 +5,13 @@
 	</head>
 	<body>
 		<article>
-			<form id="departamentoForm" method="POST" name="departamentoForm" action="#">
-				<input type="hidden" value="0" id="idDepartamento">
-				<input type="hidden" value="" id="actionForm"
+		<form id="departamentoForm" method="POST" name="departamentoForm" action="" enctype="multipart/form-data">
+				<input type="hidden" value="0" id="idDepartamento" name="idDepartamento">
+				<input type="hidden" value="" id="actionForm" />
 				<span id="fotoContainer">
-					<img src="..." id="fotoDepto"><br />
-					<input type="file" id="foto" name="foto" />
+					<img src="" id="fotoDepto"><br />
+					<span>Foto del responsable</span> 
+					<input id="foto" type="file" name="foto">
 				</span>
 				<span id="dataDeptoForm">
 					<label>Nombre</label><br/>
@@ -35,11 +36,17 @@
 				</span>
 				<label>Informaci&oacute;n complementaria</label><br />
 				<textarea id="otraInfo" name="otraInfo" width="90%" height="60"></textarea><br />
+				<span id="info" style="background:#ccc;"></span>
 				<div>
-					<input type="submit" id="guardarBtn" value="Guardar">  
+					<input type="submit" id="guardarBtn" value="Guardar"> 
 					<input type="button" id="cancelarBtn" value="Cancelar">  
 				</div>
 			</form>
 		</article>
+		<footer>
+			<script src="./js/jquery.ui.widget.js"></script>
+			<script src="./js/jquery.fileupload.js"></script>
+			<div id="extraContent"></div>
+		</footer>
 	</body>
 </html>
