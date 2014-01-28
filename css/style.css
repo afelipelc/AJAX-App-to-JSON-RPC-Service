@@ -1,12 +1,25 @@
+body{
+	/*background: #F2F2F2;*/
+	display: block;
+	margin: 0px;
+}
+
 header{
-	padding-top: 15px;
-	padding-bottom: 15px;
-	/*border: solid 1px #ccc;*/
+	padding: 15px 40px 15px 185px;
+	vertical-align: center;
+	background-image: -moz-linear-gradient(#f9f9f9, #f3f3f3);
+	background-image: -webkit-linear-gradient(#f9f9f9, #f3f3f3);
+	background-image: linear-gradient(#f9f9f9, #f3f3f3);
+	background-repeat: repeat-x;
+	background: #f3f3f3 url("../images/logo.png") no-repeat left center;
+	text-shadow: 0 1px 0 #fff;
+	border-bottom: 1px solid #e5e5e5;
 }
 
 header h1{
 	font-size: 24px;
 	margin-left: 30px;
+	color: #4D4D4D;
 }
 
 header #formContainer {
@@ -18,18 +31,24 @@ header #formContainer {
 
 
 article{
-	width: 85%;
-	height: 90%;
+	padding: 15px;
+	width: 100%;
+	height: auto;
 	/*border: solid 1px #ccc;*/
 	clear:both;
 }
 
 .itemClass{
 	height: 160px;
-    border: solid 1px #ccc;
+    border: solid 1px #C2C2C2;
     padding: 5px 10px 5px 10px;
     margin: 10px 10px 10px 10px;
 	float:left;
+
+
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+	border-radius: 3px;
 }
 
 article .deptoItem{
@@ -37,7 +56,12 @@ article .deptoItem{
 }
 
 article a{
-	color: #333;
+	color: #2774B8;
+	text-decoration: none;
+}
+article a:hover{
+	color: #1A5A91;
+	text-decoration: underline;
 }
 
 .itemOptions{
@@ -87,7 +111,11 @@ div #itemContent label{
 }
 
 .itemClass:hover{
-	background-color: #E9F5ED;
+	border: solid 1px #9E9E9E;
+	background-image: -moz-linear-gradient(#f9f9f9, #f3f3f3);
+	background-image: -webkit-linear-gradient(#f9f9f9, #f3f3f3);
+	background-image: linear-gradient(#f9f9f9, #f3f3f3);
+	background-repeat: repeat-x;
 }
 
 div #itemContent:hover{
@@ -105,6 +133,22 @@ article #newItem{
 	vertical-align: center;
 	text-align: center;
 }
+
+#searchForm #buscar{
+	width: 210px;
+	height: 28px;
+	padding: 10px 5px;
+	float: left;
+	font: 16px 'lucida sans', 'trebuchet MS', 'Tahoma';
+	border: 1px solid #C7C7C7;
+	-moz-box-shadow: 0 1px 1px #ddd inset, 0 1px 0 #fff;
+	-webkit-box-shadow: 0 1px 1px #ddd inset, 0 1px 0 #fff;
+	box-shadow: 0 1px 1px #ddd inset, 0 1px 0 #fff;
+	-moz-border-radius: 4px;
+	-webkit-border-radius: 4px;
+	border-radius: 4px;
+}
+
 
 .clearLine{
 	clear:both;
