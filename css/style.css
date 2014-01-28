@@ -36,6 +36,10 @@ article .deptoItem{
 	width: 240px;
 }
 
+article a{
+	color: #333;
+}
+
 .itemOptions{
 	width: 100%;
 	text-align: center;
@@ -109,6 +113,13 @@ article #newItem{
 footer {
 	margin-top: 30px;
 	text-align: center;
+	color: #444;
+}
+
+footer a{
+	color: #444;
+	text-decoration: none;
+	font-weight: bold;
 }
 
 /* Add item */

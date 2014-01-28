@@ -11,6 +11,7 @@ var errorStart=false;
 //Funcion Global para la llamada a los metodos remotos
 function jsonRpcFunction(metodo, parametros, funcion)
 {
+    //console.log(metodo + ", ["+parametros+"]" + " :: " + funcion);
     $.ajax({
         url: url_servicio, 
         data: JSON.stringify ({
@@ -23,7 +24,7 @@ function jsonRpcFunction(metodo, parametros, funcion)
         dataType:"JSON",
         success:  funcion,
         error: function (jqXHR, textStatus, errorThrown)  {
-            console.log(errorThrown); console.log(textStatus); 
+            console.log(jqXHR.status); console.log(errorThrown); console.log(textStatus); 
             alert ("Error en la llamada al servidor. \n\nCompruebe que tiene acceso a "+ url_servicio); //si el metodo responde con un error
             errorStart=true;
         }
@@ -31,7 +32,7 @@ function jsonRpcFunction(metodo, parametros, funcion)
 }
 
 
-var errorInWS = function(data){
+function errorInWS(data){
     if(data.error){
         alert("Error interno en el servidor. \n\n Code: " + data.error.code +"\nMessage: " + data.error.message);
         return true;
@@ -195,7 +196,7 @@ function cargarItems(){
 
 function buscarDepartamentos(q){
     $("#mainContent").html("");
-    $("#mainContent").append("<a href=\"\" id=\"cancelarBtn\">Regresar</a><div>Resultados de la búsqueda para: <strong>"+q+"</strong></div>")
+    $("#mainContent").append("<a href=\"#\" id=\"cancelarBtn\">Regresar</a><div>Resultados de la búsqueda para: <strong>"+q+"</strong></div>")
     nuevoItemLayout();
     jsonRpcFunction("Buscar",[q],departamentosFunction);
 }
