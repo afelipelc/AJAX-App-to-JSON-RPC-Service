@@ -2,6 +2,9 @@
 	<head>
 		<meta lang="ES">
 		<meta charset="utf-8">
+		<meta http-equiv="cache-control" content="no-cache" />
+		<meta http-equiv="expires" content="0" />
+		<meta http-equiv="pragma" content="no-cache" />
 	</head>
 	<body>
 		<article>
@@ -14,11 +17,11 @@
 					<input id="foto" type="file" name="foto">
 				</span>
 				<span id="dataDeptoForm">
-					<label>Nombre</label><br/>
-					<input type="text" id="nombre" name="nombre" required="required" /><br/>
-					<label>Responsable</label><br/>
-					<input type="text" id="resposable" name="resposable" required="required" /><br/>
-					<label>Cargo</label><br/>
+					<label>Nombre</label>
+					<input type="text" id="nombre" name="nombre" required="required" />
+					<label>Responsable</label>
+					<input type="text" id="resposable" name="resposable" required="required" />
+					<label>Cargo</label>
 					<select id="cargoResp">
 						<option value="" selected="selected">Seleccionar</option>
 						<option value="Rector">Rector</option>
@@ -28,13 +31,13 @@
 						<option value="Profesor">Profesor</option>
 						<option value="Profesora">Profesora</option>
 						<option value="T&eacute;cnico">T&eacute;cnico</option>
-					</select><br/>
-					<label>Tel&eacute;fono</label><br/>
-					<input type="text" id="telefono" name="telefono" required="required" /><br/>
-					<label>Email</label><br/>
-					<input type="text" id="email" name="email" required="required" /><br/>
+					</select>
+					<label>Tel&eacute;fono</label>
+					<input type="text" id="telefono" name="telefono" required="required" />
+					<label>Email</label>
+					<input type="text" id="email" name="email" required="required" />
 				</span>
-				<label>Informaci&oacute;n complementaria</label><br />
+				<label>Informaci&oacute;n complementaria</label><br>
 				<textarea id="otraInfo" name="otraInfo" width="90%" height="60"></textarea><br />
 				<span id="info" style="background:#ccc;"></span>
 				<div>
@@ -44,8 +47,6 @@
 			</form>
 		</article>
 		<footer>
-			<script src="./js/jquery.ui.widget.js"></script>
-			<script src="./js/jquery.fileupload.js"></script>
 			<div id="extraContent"></div>
 		</footer>
 	</body>

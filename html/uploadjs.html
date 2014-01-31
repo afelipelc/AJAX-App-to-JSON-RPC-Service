@@ -9,6 +9,7 @@
             //alert(data.result.imagen);
             console.log(data);
             $("#fotoDepto").attr("src","images/depto/"+data.result.imagen);
+            setTimeout(function(){},1);
 
         }
     }).prop('disabled', !$.support.fileInput)

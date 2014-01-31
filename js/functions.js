@@ -165,6 +165,7 @@ function guardarDepartamento(event)
 //Funcion para cargar el form y cargar datos del WS
 function nuevoDepartamento(){
     $("#mainContent").load("html/DepartamentoForm.html", function(){
+        $("#mainContent").prepend("<h4 style=\"line-height: 12px; display:inline;\">Registrar nuevo departamento</h4>");
         $("#idDepartamento").val(0);
         $("#actionForm").val("new");
         $("#nombre").focus();
@@ -178,6 +179,7 @@ function nuevoDepartamento(){
 
 function departamentoEdit(idDepto){
     $("#mainContent").load("html/DepartamentoForm.html", function(){
+        $("#mainContent").prepend("<h4 style=\"line-height: 12px; display:inline;\">Editar departamento</h4>");
         var urlupload = '../deptosws/imagenes.php?idDepartamento='+idDepto;
         $("#departamentoForm").attr("action",urlupload);
         jsonRpcFunction("DatosDepartamento",[idDepto],departamentoEditViewFunction);

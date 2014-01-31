@@ -181,30 +181,41 @@ footer a{
 #contenedorImagenView{
 	max-height: 230px;
 	width: 220px;
-	padding: 15px 15px 15px 15px;
+	padding: 15px;
 	float: left;
-	position: relative;
+	/*position: relative;*/
 	/*border: 1px solid #000;*/
 	text-align: center;
 }
 
 #contenedorImagenView span{
-	margin-top: 8px;
+	display: block;
+	margin-top: 12px;
+	color: #666;
 }
 
 #contenedorImagenView img{
 	max-height: 165;
 	max-width: 195px;
+	text-align: center;
+}
+
+#departamentoViewContent h4{
+	font-size: 24px;
 }
 
 #departamentoViewContent, #departamentoViewContent p, #departamentoViewContent h4{
 	line-height: 8px;
-	margin-left: 15px;
+	margin-left: 10px;
+}
+
+#departamentoViewContent #informacion{
+	line-height: 18px;
 }
 
 #departamentoViewContent .itemcontainer{
-	margin-left: 12px;
-	padding-left: 20px;
+	margin-left: 10px;
+	padding-left: 6px;
 }
 
 #departamentoViewContent .infoDepto{
@@ -214,6 +225,7 @@ footer a{
 #departamentoViewContent .itemOptions{
 	padding-top: 16px;
 	margin-left: 80px;
+	max-width: 40%;
 }
 
 
@@ -241,9 +253,13 @@ footer a{
 	max-height: 160px;
 }
 
+#dataDeptoForm{
+	display: block;
+}
 #dataDeptoForm label{
-	margin-top: 12px;
-	margin-bottom: 3px;
+	display: block;
+	padding-top: 10px;
+	margin-bottom: 4px;
 	margin-left: 10px;
 }
 #dataDeptoForm input{
@@ -253,7 +269,7 @@ textarea{
 	margin-top: 8px;
 	margin-bottom: 3px;
 	margin-left: 10px;
-	width: 240px;
-	height: 80px;
+	width: 400px;
+	height: 85px;
 }
 /*Fin - Departamento FORM */
