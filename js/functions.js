@@ -1,8 +1,13 @@
-// codigo de ejemplo escrito por A Felipe.
-// como ejemplo para la asignatura: Desarrollo de Aplicaciones III
-// en la Universidad Tecnológica de Izúcar de Matamoros, Puebla.
+/** Código de ejemplo escrito por A Felipe.
+* como ejemplo para la asignatura: Desarrollo de Aplicaciones III
+* Enero de 2014.
+* En la Universidad Tecnológica de Izúcar de Matamoros, Puebla.
+*
+*
+* afelipelc@gmail.com
+*
+*** No Eliminar estas líneas comentadas  ***/
 
-// afelipelc@gmail.com
 //variables globales y funciones
 
 var url_servicio = 'http://localhost/deptosws/ws.php';
