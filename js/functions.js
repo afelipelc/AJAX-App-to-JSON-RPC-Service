@@ -5,12 +5,13 @@
 *
 *
 * afelipelc@gmail.com
+* código fuente disponible en: https://github.com/afelipelc/AJAX-App-to-JSON-RPC-Service
 *
 *** No Eliminar estas líneas comentadas  ***/
 
 //variables globales y funciones
 
-var url_servicio = 'http://localhost/deptosws/ws.php';
+var url_servicio = 'http://192.168.1.66/deptosws/ws.php';
 var tempdelete="";
 var errorStart=false;
 //Funcion Global para la llamada a los metodos remotos
